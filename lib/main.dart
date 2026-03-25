@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'features/dashboard/screens/admin_layout.dart';
 
 void main() {
   runApp(const AdminApp());
@@ -32,7 +33,7 @@ class AdminLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +49,7 @@ class AdminLoginScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {}, 
+                  onPressed: () => Get.offAll(() => const AdminLayout()), 
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey, padding: const EdgeInsets.symmetric(vertical: 16)),
                   child: const Text('دخول الإدارة', style: TextStyle(color: Colors.white, fontSize: 18)),
                 ),
