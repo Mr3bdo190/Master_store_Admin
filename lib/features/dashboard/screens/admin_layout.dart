@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dashboard_screen.dart';
+import '../../products/screens/admin_products_screen.dart';
+import '../../orders/screens/admin_orders_screen.dart';
+import '../../support/screens/admin_support_screen.dart';
+import 'admin_settings_screen.dart';
 
 class AdminLayout extends StatefulWidget {
   const AdminLayout({super.key});
@@ -13,9 +17,10 @@ class _AdminLayoutState extends State<AdminLayout> {
 
   final List<Widget> _pages = [
     const DashboardScreen(),
-    const Center(child: Text('إدارة المنتجات', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('إدارة الطلبات', style: TextStyle(fontSize: 24))),
-    const Center(child: Text('الدعم الفني والرسائل', style: TextStyle(fontSize: 24))),
+    const AdminProductsScreen(),
+    const AdminOrdersScreen(),
+    const AdminSupportScreen(),
+    const AdminSettingsScreen(),
   ];
 
   @override
@@ -28,10 +33,11 @@ class _AdminLayoutState extends State<AdminLayout> {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.blueGrey,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), activeIcon: Icon(Icons.dashboard), label: 'الرئيسية'),
-          BottomNavigationBarItem(icon: Icon(Icons.inventory_2_outlined), activeIcon: Icon(Icons.inventory_2), label: 'المنتجات'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_checkout), activeIcon: Icon(Icons.shopping_cart_checkout), label: 'الطلبات'),
-          BottomNavigationBarItem(icon: Icon(Icons.support_agent), activeIcon: Icon(Icons.support_agent), label: 'الدعم'),
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'الرئيسية'),
+          BottomNavigationBarItem(icon: Icon(Icons.inventory), label: 'المنتجات'),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'الطلبات'),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'الدعم'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'الإعدادات'),
         ],
       ),
     );
