@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../banners/screens/admin_banners_screen.dart';
+import '../../roles/screens/admin_roles_screen.dart';
 
 class AdminSettingsScreen extends StatelessWidget {
   const AdminSettingsScreen({super.key});
@@ -7,18 +9,18 @@ class AdminSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('إعدادات المتجر')),
+      appBar: AppBar(title: const Text('إدارة المتجر بالكامل')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildOption(Icons.notifications_active, 'إرسال إشعار جماعي للكل', () {
-             Get.defaultDialog(title: "إرسال إشعار", content: const TextField(decoration: InputDecoration(hintText: 'اكتب نص الإشعار هنا')), textConfirm: "إرسال الآن", onConfirm: () => Get.back());
-          }),
-          _buildOption(Icons.confirmation_number, 'إدارة كوبونات الخصم', () {}),
-          _buildOption(Icons.admin_panel_settings, 'إدارة المديرين المساعدين', () {}),
-          _buildOption(Icons.security, 'سياسات المتجر والقوانين', () {}),
+          _buildOption(Icons.add_photo_alternate_outlined, 'إدارة سلايدر العروض', () => Get.to(() => const AdminBannersScreen())),
+          _buildOption(Icons.supervisor_account_outlined, 'صلاحيات الموظفين والمديرين', () => Get.to(() => const AdminRolesScreen())),
           const Divider(),
-          _buildOption(Icons.logout, 'تسجيل الخروج', () => Get.back(), color: Colors.red),
+          _buildOption(Icons.notifications_active_outlined, 'إرسال إشعار جماعي للعملاء', () {}),
+          _buildOption(Icons.confirmation_number_outlined, 'إدارة كوبونات الخصم', () {}),
+          _buildOption(Icons.analytics_outlined, 'تقارير المبيعات التفصيلية', () {}),
+          const Divider(),
+          _buildOption(Icons.logout, 'تسجيل الخروج من الإدارة', () => Get.back(), color: Colors.red),
         ],
       ),
     );
