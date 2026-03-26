@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.master_store_admin"
-    compileSdk = 34
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
