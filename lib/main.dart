@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'features/dashboard/screens/admin_layout.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  // السطرين دول هما اللي بيفتحوا الاتصال الفعلي بقاعدة البيانات أول ما التطبيق يفتح
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  
   runApp(const AdminApp());
 }
 
@@ -12,50 +15,54 @@ class AdminApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Master Store Admin',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
-        useMaterial3: true,
-        textTheme: GoogleFonts.cairoTextTheme(),
-      ),
-      textDirection: TextDirection.rtl,
-      home: const AdminLoginScreen(),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const AdminDashboard(),
     );
   }
 }
 
-class AdminLoginScreen extends StatelessWidget {
-  const AdminLoginScreen({super.key});
+class AdminDashboard extends StatelessWidget {
+  const AdminDashboard({super.key});
+
+  // دالة تجريبية لرفع بيانات لـ Firestore
+  Future<void> addTestProduct() async {
+    try {
+      await FirebaseFirestore.instance.collection('products').add({
+        'name': 'منتج تجريبي من بودا',
+        'price': 150,
+        'created_at': FieldValue.serverTimestamp(),
+      });
+      print("تمت الإضافة بنجاح!");
+    } catch (e) {
+      print("حصل خطأ: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('لوحة تحكم المدير'),
+        centerTitle: true,
+      ),
       body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.admin_panel_settings, size: 100, color: Colors.blueGrey),
-              const SizedBox(height: 16),
-              const Text('لوحة تحكم المدير', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 32),
-              TextFormField(decoration: const InputDecoration(labelText: 'كود المدير', border: OutlineInputBorder())),
-              const SizedBox(height: 16),
-              TextFormField(obscureText: true, decoration: const InputDecoration(labelText: 'كلمة السر', border: OutlineInputBorder())),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Get.offAll(() => const AdminLayout()), 
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey, padding: const EdgeInsets.symmetric(vertical: 16)),
-                  child: const Text('دخول الإدارة', style: TextStyle(color: Colors.white, fontSize: 18)),
-                ),
-              )
-            ],
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
           ),
+          onPressed: () {
+            // لما تدوس على الزرار هينفذ دالة الرفع
+            addTestProduct();
+            
+            // إظهار رسالة سريعة أسفل الشاشة
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('جاري إضافة المنتج لقاعدة البيانات...')),
+            );
+          },
+          child: const Text('إضافة منتج تجريبي لـ Firebase', style: TextStyle(fontSize: 18)),
         ),
       ),
     );
